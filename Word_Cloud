@@ -1,0 +1,16 @@
+#Importing Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+from wordcloud import WordCloud
+
+#Creating the text variable
+#Corpus is the series of sentences in our data
+
+text = " ".join(corpus)
+# Creating word_cloud with text as argument in .generate() method
+word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+# Display the generated Word Cloud
+plt.imshow(word_cloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
