@@ -1,0 +1,40 @@
+# importing the nltk suite 
+import nltk
+  
+# importing jaccard distance
+# and ngrams from nltk.util
+from nltk.metrics.distance import jaccard_distance
+from nltk.util import ngrams
+
+
+# Downloading and importing
+# package 'words' from nltk corpus
+nltk.download('words')
+from nltk.corpus import words
+  
+  
+correct_words = words.words()
+
+import pdb # library to set trace on code failure when updating to correct spellings
+
+# list of incorrect spellings
+# that need to be corrected 
+# incorrect_words=['happpy', 'azmaing', 'intelliengt']
+  
+# loop for finding correct spellings
+# based on jaccard distance
+# and printing the correct word
+
+corrected_corpus = []
+
+for i in range(len(corpus)):
+    row=''
+    for word in corpus[i].split():
+        try:
+            temp = [(jaccard_distance(set(ngrams(word, 1)), set(ngrams(w, 1))),w) for w in correct_words if w[0]==word[0]]
+            match = sorted(temp, key = lambda val:val[0])[0][1]
+            row = row + ' ' + match
+        except:
+#             pdb.set_trace()
+            print(corpus[i])
+    corrected_corpus.append(row)
