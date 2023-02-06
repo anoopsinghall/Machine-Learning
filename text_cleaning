@@ -1,0 +1,18 @@
+import re
+import nltk
+nltk.download('all')
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+wordnet=WordNetLemmatizer()
+corpus = []
+sentence = train.Text     #read the TEXT column of train dataframe as a Series object 
+
+for i in range(len(sentence)):
+    review = re.sub('[^a-zA-Z]', ' ', sentence[i])
+    review = review.lower()
+    review = re.sub(r'\b\w{1,2}\b', '', review) # removing the words with length one & two characters for ngram model with n=2 to work
+    review = review.split()
+    review = [wordnet.lemmatize(word) for word in review if not word in set(stopwords.words('english'))]
+    review = ' '.join(review)
+    corpus.append(review)
