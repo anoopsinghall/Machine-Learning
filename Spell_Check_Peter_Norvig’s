@@ -1,0 +1,47 @@
+# The following code checks misspelling and update them with correct spellings using 
+# Pure Python Spell Checking based on Peter Norvig’s blog post on setting up a simple spell checking algorithm.
+# https://pypi.org/project/pyspellchecker/
+# Accuracy of the output depends on case to case (type of text data)
+
+! pip install pyspellchecker
+
+import sys
+from spellchecker import SpellChecker
+
+spell = SpellChecker()
+corrected_corpus = []
+count = 0
+
+# find those words that may be misspelled
+# here corpus is a column of a dataframe with each row containing text (sentence) to be used to NLP
+
+for i in range(len(corpus)):
+  misspelled = spell.unknown(corpus[i].split())
+
+  # Create a list of correct words for each mispelled word
+  rspelled = []
+  for word in misspelled:
+      # Get the one `most likely` answer
+      correct = spell.correction(word)
+      rspelled.append(correct)
+
+#Create a series of rightly spelled words (rspelled) with misspelled words as its index (misspelled)
+  rs = pd.Series(rspelled)
+  rs.index = misspelled
+
+  # recreate the sentence in each row of corpus by replacing the corrected word
+  sent = '' # create an empty string
+  
+  for j, word in enumerate(corpus[i].split()):
+    if word not in misspelled:
+      sent = sent + word + ' '
+    else:
+      sent = sent + str(rs[word]) + ' '
+      
+  # Append each corrected sentence to the list corrected_corpus
+  corrected_corpus.append(sent)
+
+# printing the row number of the corpus that is being updated 
+# just to get an estimate of the speed of update
+  sys.stdout.write('\r'+str(len(corrected_corpus)))
+  # sys.stdout.flush()
