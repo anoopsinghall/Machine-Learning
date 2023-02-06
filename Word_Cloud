@@ -1,18 +1,20 @@
 #Creating Word Cloud based on frequency of words
+#https://www.analyticsvidhya.com/blog/2021/08/creating-customized-word-cloud-in-python/#:~:text=max_font_size%3A%20This%20argument%20defines%20the,color%20is%20defined%20as%20black.
 
 #Importing Libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 %matplotlib inline
 from wordcloud import WordCloud
+from wordcloud import STOPWORDS, ImageColorGenerator
+stopwords = set(STOPWORDS)
 
 #Creating the text variable
-#Corpus is the series of sentences in our data
-
 text = " ".join(corpus)
 # Creating word_cloud with text as argument in .generate() method
-word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+word_cloud = WordCloud(width = 3000, height = 2000, random_state=1, background_color='black', colormap='Set2', collocations=False, stopwords = STOPWORDS).generate(text)
 # Display the generated Word Cloud
 plt.imshow(word_cloud, interpolation='bilinear')
 plt.axis("off")
+# plt.figure(figsize=[1,2])
 plt.show()
